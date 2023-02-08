@@ -1,0 +1,41 @@
+<!-- Include header -->
+<%- include('include/_header') %>
+<!-- Include header -->
+
+<!-- Main Site -->
+<main id="site-main">
+
+  <!-- user form layout container -->
+  <div id="add-user-form-container">
+    <form id="update_user" class="drop-shadow" method="POST">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Jane Doe">
+      
+      <div class="division"></div>
+  
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="user@email.com">
+  
+      <div class="division"></div>
+      
+      <label for="status">Status</label>
+      <select id="status" name="status">
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+  
+      <div class="division"></div>
+      
+      <input type="submit" value="Comfirm">
+    </form>
+    <div class="add-color-section update-color-section blue-gradient drop-shadow">
+        Any New Sightings Today?
+    </div>
+  </div>
+  <!-- user form layout container -->
+</main>
+<!-- Main Site -->
+
+<!-- Include footer -->
+<%- include('include/_footer') %>
+<!-- Include footer -->

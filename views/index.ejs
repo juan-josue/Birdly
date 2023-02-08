@@ -1,0 +1,40 @@
+<!-- Include header -->
+<%- include('include/_header') %>
+<!-- Include header -->
+
+<!-- Main Site -->
+<main id="site-main">
+
+  <!-- 3 column layout container -->
+  <div class="col-container">
+    <div class="col col1 drop-shadow">
+      <h1 class="col-title text-center">report sighting</h1>
+      <%- include('include/_sighting_form') %>
+    </div>
+    
+    <div class="col col2 drop-shadow">
+      <div id="map-container">
+        <img src="img/map.png">
+        <div id="stats">
+          <p><i class="fa-solid fa-binoculars"></i>  67 Sightings Reported By All Users</p>
+          <p><i class="fa-solid fa-users"></i>  3,400 Active Users </p>
+          <p><i class="fa-sharp fa-solid fa-kiwi-bird"></i>  32 Birds Found By All Users</p>
+          <p><i class="fa-solid fa-clock"></i>  Last Sighting 2023-02-07 at 17:03 </p>
+        </div>
+      </div>
+      
+    </div>
+    <div class="col col3 drop-shadow">
+      <h1 class="col-title text-center">your sightings</h1>
+      <ul id="sighting-list">
+        <%- include('include/_sighting') %>
+      </ul>
+    </div>
+  </div>
+  <!-- 3 column layout container -->
+</main>
+<!-- Main Site -->
+
+<!-- Include footer -->
+<%- include('include/_footer') %>
+<!-- Include footer -->
