@@ -8,10 +8,29 @@ const services = require('../services/render');
 const controller = require('../controller/controller');
 
 /**
- * @description Root Route (render home page)
+ * @description Root Route (render sign in page)
  * @method GET /
  * */
-route.get("/", services.homeRoutes);
+route.get("/", services.sign_in);
+route.get("/sign-in", services.sign_in);
+
+/**
+ * @description Log In Route (render sign in page)
+ * @method POST /
+ * */
+route.post("/login", services.login);
+
+/**
+ * @description Log In Route (render sign in page)
+ * @method GET /
+ * */
+route.get("/logout", services.logout);
+
+/**
+ * @description dashboard Route (render the user dashboard)
+ * @method GET /
+ * */
+route.get("/dashboard", services.dashboard);
 
 /**
  * @description Add User Route (render add user page)
@@ -24,12 +43,6 @@ route.get("/add-user", services.add_user);
  * @method GET /update-user
  * */
 route.get("/update-user", services.update_user);
-
-/**
- * @description Sign In Route (render sign in page)
- * @method GET /sign-in
- * */
-route.get("/sign-in", services.sign_in);
 
 //API (for our api calls to mongodb), :id is defining a url parameter
 route.post('/api/users', controller.create);

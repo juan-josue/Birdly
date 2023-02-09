@@ -7,14 +7,24 @@
 
   <!-- user form layout container -->
   <div id="add-user-form-container">
-    <form id="sign_in" class="drop-shadow" method="GET" action="/">
-    
+    <form id="sign_in" class="drop-shadow" method="POST" action="/login">
+        <% if (locals.logout) { %>
+          <div class="alert text-center">
+            <%= logout %> 
+          </div>
+        <% } %>  
+
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="user@email.com">
+        <input type="email" id="email" name="email" placeholder="email">
+    
+        <div class="division"></div>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="password">
     
         <div class="division"></div>
         
-        <input type="submit" value="Comfirm">
+        <input type="submit" value="Confirm">
       </form>
     <div class="add-color-section blue-gradient drop-shadow">
         Welcome Back!

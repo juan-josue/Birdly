@@ -13,7 +13,8 @@
     <!-- Header -->
     <header id="header">
       <nav class="space-between drop-shadow">
-        <a href="/" class="logo">Birdly <i class="fa-solid fa-kiwi-bird"></i></a>
+        <a class="logo">Birdly <i class="fa-solid fa-kiwi-bird"></i></a>
+        <h5 class="text-center"><%= locals.user ? user : "" %></h5>
         <div class="icons-container">
           <a href="/sign-in">
             <i class="fa-solid fa-user"></i>
@@ -23,6 +24,9 @@
           </a>
           <a href="/update-user">
             <i class="fa-solid fa-user-pen"></i>
+          </a>
+          <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
           </a>
         </div>    
       </nav>
