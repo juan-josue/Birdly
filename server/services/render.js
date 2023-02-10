@@ -1,42 +1,52 @@
 // This library lets you make HTTP requests (get, post, put, delete) from node js
 const axios = require("axios");
 
-const credential = {
-  email: "admin@gmail.com",
-  password: "YellowMangoes01",
-};
+// const credential = {
+//   email: "admin@gmail.com",
+//   password: "YellowMangoes01",
+// };
+
+const log = console.log.bind(console);
 
 // login route handler
 exports.login = (req, res) => {
-  if (
-    req.body.email == credential.email &&
-    req.body.password == credential.password
-  ) {
-    req.session.user = req.body.email;
-    console.log("redirecting to dashboard");
-    res.redirect("/dashboard");
-  } else {
-    res.render('sign_in', { logout : "Invalid username or password!"});
-  }
+  axios
+    .get("http://localhost:3000/api/users", {
+      params: { email: req.body.email },
+    })
+    .then(function (response) {
+      const user = response.data;
+
+      if (user.email && (req.body.email == user.email)) {
+        req.session.user = user;
+        res.redirect("/dashboard");
+      } else {
+        res.render("sign_in", { logout: "Invalid username or password!" });
+      }
+    })
+    // Failed axios request
+    .catch((err) => {
+      res.send(err);
+    });
 };
 
 // logout route handler
-exports.logout = (req ,res)=>{
-  req.session.destroy(function(err){
-      if(err){
-          console.log(err);
-          res.send("Error")
-      }else{
-          res.render('sign_in', { logout : "You logged out successfully!"});
-      }
-  })
-}
+exports.logout = (req, res) => {
+  req.session.destroy(function (err) {
+    if (err) {
+      console.log(err);
+      res.send("Error");
+    } else {
+      res.render("sign_in", { logout: "You logged out successfully!" });
+    }
+  });
+};
 
 // Dashboard route handler
 exports.dashboard = (req, res) => {
   console.log(req.session);
   if (req.session.user) {
-    res.render("index", {user : req.session.user});
+    res.render("index", { user: req.session.user });
   } else {
     res.send("Unauthorized user!");
   }

@@ -31,38 +31,35 @@ exports.create = (req, res) => {
     });
 };
 
-// Retrieve and return all users / Retrieve and return a single user
+// Retrieve a user with a specific email
 exports.find = (req, res) => {
   // Retrieve single user (a id query param was included in request)
-  if (req.query.id) {
-    const id = req.query.id;
-
-    Userdb.findById(id)
-      .then((data) => {
-        if (!data) {
-          res.status(404).send({ message: "Could not find user with id" + id });
+  if (req.query.email) {
+    Userdb.findOne({ email: req.query.email })
+      .then((response) => {
+        if (!response) {
+          res.send();
         } else {
-          res.send(data);
+          res.send(response);
         }
       })
       .catch((err) => {
-        res
-          .status(500)
-          .send({ message: "Error retrieving user with is " + id });
-      });
-      
-  // Retrieve all users (no id query param was included in request)
-  } else {
-    Userdb.find()
-      .then((user) => {
-        res.send(user);
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message: err.message || "Error occurred while retrieving user info",
-        });
+        res.status(500);
       });
   }
+
+  // // Retrieve all users (no id query param was included in request)
+  // else {
+  //   Userdb.find()
+  //     .then((user) => {
+  //       res.send(user);
+  //     })
+  //     .catch((err) => {
+  //       res.status(500).send({
+  //         message: err.message || "Error occurred while retrieving user info",
+  //       });
+  //     });
+  // }
 };
 
 // Update a new identified user by user id
