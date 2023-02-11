@@ -177,12 +177,6 @@ body {
   background-color: var(--background_dark);
 }
 
-#map-container img {
-  height: 80%;
-  width: 100%;
-  border-radius: 10px 10px 0 0;
-}
-
 #stats {
   width: 100%;
   padding: 20px;
@@ -309,4 +303,38 @@ input[type="submit"] {
 .icons-container {
   display: flex;
   gap: 15px;
+}
+
+#welcome {
+  color: var(--white);
+  font-size: 1em;
+  font-weight: 500;
+  font-family: 'Mukta', sans-serif;
+}
+
+#map {
+  height: 80%;
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+  background-color: var(--background_dark);
+}
+
+/* Popup width is defined in JS using options */
+.leaflet-popup .leaflet-popup-content-wrapper {
+  background-color: var(--background_dark);
+  color: var(--white);
+  border-radius: 5px;
+  padding-right: 0.6rem;
+}
+
+.leaflet-popup .leaflet-popup-content {
+  font-size: 1.2rem;
+}
+
+.leaflet-popup .leaflet-popup-tip {
+  background-color: var(--background_dark);
+}
+
+.popup .leaflet-popup-content-wrapper {
+  border-left: 10px solid var(--blue_light);
 }

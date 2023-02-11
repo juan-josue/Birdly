@@ -1,5 +1,5 @@
 <!-- sighting form partial file -->
-<form id="sighting-form">
+<form id="sighting-form" method="POST" action="/api/report">
     <label for="date">Date</label>
     <input type="date" id="date" name="date">
 
@@ -25,6 +25,7 @@
 
     <div class="division"></div>
   
+    <input type="hidden" name="id" value="<%= user._id %>">
     <input type="submit" value="Report Sighting">
 </form>
 <!-- sighting form partial file -->

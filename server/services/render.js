@@ -1,13 +1,6 @@
 // This library lets you make HTTP requests (get, post, put, delete) from node js
 const axios = require("axios");
 
-// const credential = {
-//   email: "admin@gmail.com",
-//   password: "YellowMangoes01",
-// };
-
-const log = console.log.bind(console);
-
 // login route handler
 exports.login = (req, res) => {
   axios
@@ -17,14 +10,13 @@ exports.login = (req, res) => {
     .then(function (response) {
       const user = response.data;
 
-      if (user.email && (req.body.email == user.email)) {
+      if (user.email && req.body.email == user.email) {
         req.session.user = user;
         res.redirect("/dashboard");
       } else {
         res.render("sign_in", { logout: "Invalid username or password!" });
       }
     })
-    // Failed axios request
     .catch((err) => {
       res.send(err);
     });

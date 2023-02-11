@@ -5,7 +5,6 @@ import { Sighting } from "./sighting.js";
 
 // Document Elements
 const form = document.querySelector(".form");
-const containerSightings = document.querySelector(".sightings");
 const inputDate = document.querySelector(".form_input--date");
 const inputTime = document.querySelector(".form_input--time");
 const inputSpecies = document.querySelector(".form_input--species");
