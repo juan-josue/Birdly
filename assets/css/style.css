@@ -192,7 +192,7 @@ body {
   font-size: 1em;
 }
 
-#sighting-form {
+.sighting-form-container {
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -278,12 +278,12 @@ input[type="submit"] {
   align-items: center;
 
   color: var(--white);
-  background: rgb(90, 187, 228);
+  /* background: rgb(90, 187, 228);
   background: linear-gradient(
     150deg,
     rgba(90, 187, 228, 1) 21%,
     rgb(81, 86, 174) 66%
-  );
+  ); */
 
   font-size: 1.8em;
   font-family: 'Pacifico', cursive;
@@ -337,4 +337,35 @@ input[type="submit"] {
 
 .popup .leaflet-popup-content-wrapper {
   border-left: 10px solid var(--blue_light);
+}
+
+#sign_in a {
+  color: var(--white);
+  text-decoration: none;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* animated backgrounds */
+.gradient-animate {
+	background: linear-gradient(334deg, #da4ba1, #6391c9, #6643b2);
+	background-size: 180% 180%;
+	animation: gradient-animation 4s ease infinite;
+}
+
+@keyframes gradient-animation {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+/* animated backgrounds */
+
+.hide {
+  display: none;
 }

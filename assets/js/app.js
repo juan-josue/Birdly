@@ -2,14 +2,14 @@
 console.log("********************YOGURT**********************");
 
 // //Imports
-// import { Sighting } from "./sighting.js";
+import { Sighting } from "./sighting.js";
 
 // // Document Elements
-// const form = document.querySelector(".form");
-// const inputDate = document.querySelector(".form_input--date");
-// const inputTime = document.querySelector(".form_input--time");
-// const inputSpecies = document.querySelector(".form_input--species");
-// const inputLocation = document.querySelector(".form_input--location");
+const form = document.querySelector("#sighting-form");
+const inputDate = document.querySelector("#date");
+const inputTime = document.querySelector("#time");
+const inputSpecies = document.querySelector("#species");
+const inputLocation = document.querySelector("#locationType");
 
 class App {
   #map;
@@ -21,7 +21,7 @@ class App {
     this._getPosition();
 
     // Attach event handlers
-    // form.addEventListener("submit", this._newSighting.bind(this));
+    form.addEventListener("submit", this._newSighting.bind(this));
   }
 
   /**
@@ -56,11 +56,10 @@ class App {
     this.#map.on("click", this._showForm.bind(this));
   }
 
-  // _showForm(mapE) {
-  //   this.#mapEvent = mapE;
-  //   form.classList.remove("hidden");
-  //   form.classList.remove("animate__fadeOutRight");
-  // }
+  _showForm(mapE) {
+    this.#mapEvent = mapE; 
+    form.classList.remove("hide");
+  }
 
   // _hideForm() {
   //   // prettier-ignore
@@ -74,32 +73,35 @@ class App {
   //   }, delayInMilliseconds);
   // }
 
-  // _newSighting(e) {
-  //   e.preventDefault();
+  _newSighting(e) {
+    e.preventDefault();
 
-  //   // Get inputs from form
-  //   const date = inputDate.value;
-  //   const time = inputTime.value;
-  //   const species = inputSpecies.value;
-  //   const locationType =
-  //     inputLocation.options[inputLocation.selectedIndex].value;
-  //   const { lat, lng } = this.#mapEvent.latlng;
+    // Get inputs from form
+    const date = inputDate.value;
+    const time = inputTime.value;
+    const species = inputSpecies.value;
+    const locationType =
+      inputLocation.options[inputLocation.selectedIndex].value;
+    const { lat, lng } = this.#mapEvent.latlng;
 
-  //   // Create new Sighting object
-  //   let sighting = new Sighting([lat, lng], date, time, species, locationType);
+    // Create new Sighting object
+    let sighting = new Sighting([lat, lng], date, time, species, locationType);
 
-  //   // Add the sighting to the sighting array
-  //   this.#sightings.push(sighting);
+    // Add the sighting to the sighting array
+    this.#sightings.push(sighting);
 
-  //   // Render the sighting on the map
-  //   this._renderSightingMarker(sighting);
+    // Log sightings
+    console.log(this.#sightings);
 
-  //   // Render the sighting on the side bar
-  //   this._renderSighting(sighting);
+    // Render the sighting on the map
+    // this._renderSightingMarker(sighting);
 
-  //   // Hide the sighting form
-  //   this._hideForm();
-  // }
+    // Render the sighting on the side bar
+    // this._renderSighting(sighting);
+
+    // Hide the sighting form
+    // this._hideForm();
+  }
 
   // _renderSighting(sighting) {
   //   let html = `

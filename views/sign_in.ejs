@@ -1,6 +1,43 @@
-<!-- Include header -->
-<%- include('include/_header') %>
-<!-- Include header -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birdly</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- leaflet  -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
+      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+      crossorigin=""
+    />
+
+    <script
+      defer
+      src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
+      integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s="
+      crossorigin=""
+    ></script>
+
+    <!-- defer app script until after the document has been parsed -->
+    <script defer type="module" src="/js/app.js"></script>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header id="header">
+      <nav class="space-between drop-shadow">
+        <a class="logo">Birdly <i class="fa-solid fa-kiwi-bird"></i></a>
+        <h5 id="welcome" class="text-center"><%= locals.user ? "Welcome back " + user.name : "" %></h5>
+        <div class="icons-container">
+        </div>    
+      </nav>
+    </header>
+    <!-- Navbar -->
 
 <!-- Main Site -->
 <main id="site-main">
@@ -24,9 +61,10 @@
     
         <div class="division"></div>
         
-        <input type="submit" value="Confirm">
+        <input type="submit" value="Sign in">
+        <a href="/add-user">Create an account here.</a>
       </form>
-    <div class="add-color-section blue-gradient drop-shadow">
+    <div class="add-color-section gradient-animate drop-shadow">
         Welcome Back!
     </div>
   </div>
