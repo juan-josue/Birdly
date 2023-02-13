@@ -11,11 +11,11 @@ var schema = new mongoose.Schema({
     unique: true,
   },
   sightings: [{
+    coords: [Number],
     date: String,
     time: String,
     species: String,
     location: String,
-    coords: [Number],
   }],
 });
 

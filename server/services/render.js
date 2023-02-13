@@ -26,7 +26,6 @@ exports.login = (req, res) => {
 exports.logout = (req, res) => {
   req.session.destroy(function (err) {
     if (err) {
-      console.log(err);
       res.send("Error");
     } else {
       res.render("sign_in", { logout: "You logged out successfully!" });
@@ -36,7 +35,6 @@ exports.logout = (req, res) => {
 
 // Dashboard route handler
 exports.dashboard = (req, res) => {
-  console.log(req.session);
   if (req.session.user) {
     res.render("index", { user: req.session.user });
   } else {

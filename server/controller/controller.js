@@ -47,19 +47,6 @@ exports.find = (req, res) => {
         res.status(500);
       });
   }
-
-  // // Retrieve all users (no id query param was included in request)
-  // else {
-  //   Userdb.find()
-  //     .then((user) => {
-  //       res.send(user);
-  //     })
-  //     .catch((err) => {
-  //       res.status(500).send({
-  //         message: err.message || "Error occurred while retrieving user info",
-  //       });
-  //     });
-  // }
 };
 
 // Update a new identified user by user id
@@ -113,49 +100,37 @@ exports.delete = (req, res) => {
 
 // report sighting
 exports.report = (req, res) => {
-  console.log(
-    "REPORT REPORT REPORT REPORT REPORT REPORT REPORT REPORT REPORT REPORT REPORT REPORT"
-  );
-  if (!req.body) {
-    return res.status(400).send({ message: "Data to update cannot be empty" });
-  }
+  const user = req.session.user;
+  const newSighting = req.body.sighting;
+  const id = user._id;
 
-  // Get user id
-  const id = req.body.id;
-  console.log(id);
-
-  //create new sighting
-  let date = new Date()
-
-  const newSighting = {
-    date: date.toLocaleDateString(),
-    time: date.toTimeString(),
-    species: req.body.species,
-    location: req.body.location,
-    coords: [0, 0],
-  };
-  console.log(newSighting);
-
-  // Find user with the id and update
-  Userdb.findByIdAndUpdate(id, { $push: { sightings: newSighting } }, { new: true })
-    .then((data) => {
-      if (!data) {
-        return res.status(404).send({
-          message: "User not found with id " + id,
+  if (user) {
+    // Find user with the id and update
+    Userdb.findByIdAndUpdate(
+      id,
+      { $push: { sightings: newSighting } },
+      { new: true }
+    )
+      .then((data) => {
+        if (!data) {
+          return res.status(404).send({
+            message: "User not found with id " + id,
+          });
+        }
+        res.render("index", { user: req.session.user });
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.kind === "ObjectId") {
+          return res.status(404).send({
+            message: `cannot update user with id:${id}. Maybe user not found!`,
+          });
+        }
+        return res.status(500).send({
+          message: "Error updating user info",
         });
-      }
-      res.render(index);
-    })
-    .catch((err) => {
-      console.log("******************************");
-      console.log(err);
-      if (err.kind === "ObjectId") {
-        return res.status(404).send({
-          message: `cannot update user with id:${id}. Maybe user not found!`,
-        });
-      }
-      return res.status(500).send({
-        message: "Error updating user info",
       });
-    });
+  } else {
+    console.error("User not found");
+  }
 };

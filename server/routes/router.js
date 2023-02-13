@@ -47,7 +47,7 @@ route.get("/update-user", services.update_user);
 // API (for our api calls to mongodb), :id is defining a url parameter
 route.post('/api/users', controller.create);
 route.get('/api/users', controller.find);
-route.post('/api/report', controller.report);
+route.put('/api/report', controller.report);
 route.put('/api/users/:id', controller.update);
 route.delete('/api/users/:id', controller.delete);
 

@@ -1,5 +1,4 @@
 "use strict";
-console.log("********************YOGURT**********************");
 
 // //Imports
 import { Sighting } from "./sighting.js";
@@ -57,21 +56,9 @@ class App {
   }
 
   _showForm(mapE) {
-    this.#mapEvent = mapE; 
+    this.#mapEvent = mapE;
     form.classList.remove("hide");
   }
-
-  // _hideForm() {
-  //   // prettier-ignore
-  //   inputDate.value = inputTime.value = inputSpecies.value = '';
-  //   form.classList.add("animate__fadeOutRight");
-
-  //   // Remove hidden class after 900ms to give animation time to play
-  //   const delayInMilliseconds = 900;
-  //   setTimeout(function () {
-  //     form.classList.add("hidden");
-  //   }, delayInMilliseconds);
-  // }
 
   _newSighting(e) {
     e.preventDefault();
@@ -85,22 +72,31 @@ class App {
     const { lat, lng } = this.#mapEvent.latlng;
 
     // Create new Sighting object
-    let sighting = new Sighting([lat, lng], date, time, species, locationType);
+    let newSighting = new Sighting([lat, lng], date, time, species, locationType);
 
     // Add the sighting to the sighting array
-    this.#sightings.push(sighting);
+    this.#sightings.push(newSighting);
 
     // Log sightings
     console.log(this.#sightings);
 
     // Render the sighting on the map
-    // this._renderSightingMarker(sighting);
+    this._renderSightingMarker(newSighting);
+
+    // Create a axios put request and push the new sighting to the database
+    axios
+      .put("/api/report", {
+        sighting: newSighting,
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
     // Render the sighting on the side bar
     // this._renderSighting(sighting);
-
-    // Hide the sighting form
-    // this._hideForm();
   }
 
   // _renderSighting(sighting) {
@@ -128,21 +124,21 @@ class App {
   //   form.insertAdjacentHTML("afterend", html);
   // }
 
-  // _renderSightingMarker(sighting) {
-  //   L.marker(sighting.coords)
-  //     .addTo(this.#map)
-  //     .bindPopup(
-  //       L.popup({
-  //         maxWidth: 250,
-  //         minWidth: 100,
-  //         autoClose: false,
-  //         closeOnClick: false,
-  //         className: "popup",
-  //       })
-  //     )
-  //     .setPopupContent("Sighting")
-  //     .openPopup();
-  // }
+  _renderSightingMarker(sighting) {
+    L.marker(sighting.coords)
+      .addTo(this.#map)
+      .bindPopup(
+        L.popup({
+          maxWidth: 250,
+          minWidth: 100,
+          autoClose: false,
+          closeOnClick: false,
+          className: "popup",
+        })
+      )
+      .setPopupContent("Sighting")
+      .openPopup();
+  }
 }
 
 const app = new App();
