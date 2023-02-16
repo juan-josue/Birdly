@@ -96,18 +96,6 @@ body {
   top: 3px;
 }
 
-/* SIDEBAR */
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 5%;
-  padding: 50px 2%;
-  width: 50%;
-
-  background-color: var(--background);
-}
-
 /* FORM */
 .form {
   background-color: var(--background_lighter);
@@ -211,14 +199,13 @@ body {
   color: var(--white);
 }
 
-.sightings {
-  overflow-y: auto;
-  overflow-x: hidden;
+/* .sightings {
+  overflow: auto;
 
   display: flex;
   flex-direction: column;
   gap: 3%;
-}
+} */
 
 /* MAP */
 #map {
@@ -284,4 +271,12 @@ nav p {
 
   position: relative;
   top: 3px;
+}
+
+#sighting-list {
+  background-color: #0f5132;
+  /* overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 3%; */
 }

@@ -1,2 +1,4 @@
 .vscode/
 config.env
+.old_scripts/
+.old_styles/

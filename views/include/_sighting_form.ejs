@@ -2,17 +2,17 @@
 <form id="sighting-form" class="hide" method="POST" action="/api/report">
   <div class="sighting-form-container">
     <label for="date">Date</label>
-    <input type="date" id="date" name="date">
+    <input type="date" id="date" name="date" required>
 
     <div class="division"></div>
   
     <label for="time">Time</label>
-    <input type="time" id="time" name="time">
+    <input type="time" id="time" name="time" required>
 
     <div class="division"></div>
   
     <label for="species">Species</label>
-    <input type="text" id="species" name="species">
+    <input type="text" id="species" name="species" required>
 
     <div class="division"></div>
   
@@ -26,7 +26,7 @@
 
     <div class="division"></div>
   
-    <input type="hidden" name="id" value="<%= user._id %>">
+    <input type="hidden" name="id" value="<%= user._id %>" required>
     <input type="submit" value="Report Sighting">
   </div>
 </form>

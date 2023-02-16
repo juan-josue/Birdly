@@ -1,42 +1,11 @@
+<% const sightings = user.sightings %>
+<% for (var i = 0; i < sightings.length; i++) { %>
 <li class="sighting drop-shadow">
-  <p><i class="fa-solid fa-calendar"></i> 2023-02-10</p>
-  <p><i class="fa-solid fa-clock"></i> 17:34</p>
-  <p><i class="fa-solid fa-crow"></i> Montezuma Oropendula</p>
-  <p><i class="fa-solid fa-tree"></i> In a tree</p>
+  <div class="hide"><%= sightings[i].coords[0] %></div>
+  <div class="hide"><%= sightings[i].coords[1] %></div>
+  <p><i class="fa-solid fa-calendar"></i> <%= sightings[i].date %></p>
+  <p><i class="fa-solid fa-clock"></i> <%= sightings[i].time %></p>
+  <p><i class="fa-solid fa-crow"></i> <%= sightings[i].species %></p>
+  <!-- <p><i class="fa-solid fa-tree"></i><%= sightings[i].location %></p> -->
 </li>
-<li class="sighting drop-shadow">
-  <p><i class="fa-solid fa-calendar"></i> 2023-02-10</p>
-  <p><i class="fa-solid fa-clock"></i> 17:34</p>
-  <p><i class="fa-solid fa-crow"></i> Montezuma Oropendula</p>
-  <p><i class="fa-solid fa-tree"></i> In a tree</p>
-</li>
-<li class="sighting drop-shadow">
-  <p><i class="fa-solid fa-calendar"></i> 2023-02-10</p>
-  <p><i class="fa-solid fa-clock"></i> 17:34</p>
-  <p><i class="fa-solid fa-crow"></i> Montezuma Oropendula</p>
-  <p><i class="fa-solid fa-tree"></i> In a tree</p>
-</li>
-<li class="sighting drop-shadow">
-  <p><i class="fa-solid fa-calendar"></i> 2023-02-10</p>
-  <p><i class="fa-solid fa-clock"></i> 17:34</p>
-  <p><i class="fa-solid fa-crow"></i> Montezuma Oropendula</p>
-  <p><i class="fa-solid fa-tree"></i> In a tree</p>
-</li>
-<li class="sighting drop-shadow">
-  <p><i class="fa-solid fa-calendar"></i> 2023-02-10</p>
-  <p><i class="fa-solid fa-clock"></i> 17:34</p>
-  <p><i class="fa-solid fa-crow"></i> Montezuma Oropendula</p>
-  <p><i class="fa-solid fa-tree"></i> In a tree</p>
-</li>
-<li class="sighting drop-shadow">
-  <p><i class="fa-solid fa-calendar"></i> 2023-02-10</p>
-  <p><i class="fa-solid fa-clock"></i> 17:34</p>
-  <p><i class="fa-solid fa-crow"></i> Montezuma Oropendula</p>
-  <p><i class="fa-solid fa-tree"></i> In a tree</p>
-</li>
-<li class="sighting drop-shadow">
-  <p><i class="fa-solid fa-calendar"></i> 2023-02-10</p>
-  <p><i class="fa-solid fa-clock"></i> 17:34</p>
-  <p><i class="fa-solid fa-crow"></i> Montezuma Oropendula</p>
-  <p><i class="fa-solid fa-tree"></i> In a tree</p>
-</li>
+<% } %> 

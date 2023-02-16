@@ -1,4 +1,5 @@
 var Userdb = require("../model/model");
+const axios = require("axios");
 
 // Create and save new user
 exports.create = (req, res) => {
@@ -19,8 +20,18 @@ exports.create = (req, res) => {
   user
     .save(user)
     .then((data) => {
-      res.send(data);
-      // res.redirect("/add-user")
+      // Send the new user the dashboard
+      axios
+        .get("http://localhost:3000/api/users", {
+          params: { email: req.body.email },
+        })
+        .then(function (response) {
+          req.session.user = response.data;
+          res.redirect("/dashboard");
+        })
+        .catch((err) => {
+          res.send(err);
+        });
     })
     .catch((err) => {
       res.status(500).send({
@@ -50,80 +61,36 @@ exports.find = (req, res) => {
 };
 
 // Update a new identified user by user id
-exports.update = (req, res) => {
-  if (!req.body) {
-    return res.status(400).send({ message: "Data to update cannot be empty" });
-  }
-
-  const id = req.params.id;
-  Userdb.findByIdAndUpdate(id, req.body, { new: true })
-    .then((data) => {
-      if (!data) {
-        return res.status(404).send({
-          message: "User not found with id " + id,
-        });
-      }
-      res.send(data);
-    })
-    .catch((err) => {
-      if (err.kind === "ObjectId") {
-        return res.status(404).send({
-          message: `cannot update user with id:${id}. Maybe user not found!`,
-        });
-      }
-      return res.status(500).send({
-        message: "Error updating user info",
-      });
-    });
-};
+exports.update = (req, res) => {};
 
 // Delete a user with specified id in the request
-exports.delete = (req, res) => {
-  const id = req.params.id;
-
-  Userdb.findByIdAndDelete(id)
-    .then((data) => {
-      if (!data) {
-        res
-          .status(404)
-          .send({ message: `Cannot Delete user with ${id}. Maybe wrong id?` });
-      } else {
-        res.send({ message: "User was deleted succesfully!" });
-      }
-    })
-    .catch((err) => {
-      res
-        .status(500)
-        .send({ message: `Cannot Delete user with ${id}. Maybe wrong id?` });
-    });
-};
+exports.delete = (req, res) => {};
 
 // report sighting
 exports.report = (req, res) => {
   const user = req.session.user;
   const newSighting = req.body.sighting;
-  const id = user._id;
 
   if (user) {
     // Find user with the id and update
     Userdb.findByIdAndUpdate(
-      id,
+      user._id,
       { $push: { sightings: newSighting } },
       { new: true }
     )
       .then((data) => {
         if (!data) {
           return res.status(404).send({
-            message: "User not found with id " + id,
+            message: "User not found with id " + user._id,
           });
         }
-        res.render("index", { user: req.session.user });
+        req.session.user = data; // Update the session user with the updated data
+        res.render("index", { user: data });
       })
       .catch((err) => {
-        console.log(err);
         if (err.kind === "ObjectId") {
           return res.status(404).send({
-            message: `cannot update user with id:${id}. Maybe user not found!`,
+            message: `cannot update user with id:${user._id}. Maybe user not found!`,
           });
         }
         return res.status(500).send({
@@ -131,6 +98,8 @@ exports.report = (req, res) => {
         });
       });
   } else {
-    console.error("User not found");
+    return res.status(401).send({
+      message: "Please sign in to access the page.",
+    });
   }
 };

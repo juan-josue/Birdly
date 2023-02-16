@@ -13,7 +13,6 @@ const inputLocation = document.querySelector("#locationType");
 class App {
   #map;
   #mapEvent;
-  #sightings = [];
 
   constructor() {
     // Get user's position and load the map on that location
@@ -53,6 +52,16 @@ class App {
 
     // Add event listender to the loaded map for click events
     this.#map.on("click", this._showForm.bind(this));
+
+    const pairs = [];
+    $('.sighting').each(function() {
+      let lat = $(this).find('.hide').eq(0).text();
+      let lng = $(this).find('.hide').eq(1).text();
+      pairs.push([lat, lng]);
+    });
+    pairs.forEach(pair => {
+      this._renderSightingMarker(pair);
+    });
   }
 
   _showForm(mapE) {
@@ -72,16 +81,13 @@ class App {
     const { lat, lng } = this.#mapEvent.latlng;
 
     // Create new Sighting object
-    let newSighting = new Sighting([lat, lng], date, time, species, locationType);
-
-    // Add the sighting to the sighting array
-    this.#sightings.push(newSighting);
-
-    // Log sightings
-    console.log(this.#sightings);
-
-    // Render the sighting on the map
-    this._renderSightingMarker(newSighting);
+    let newSighting = new Sighting(
+      [lat, lng],
+      date,
+      time,
+      species,
+      locationType
+    );
 
     // Create a axios put request and push the new sighting to the database
     axios
@@ -90,42 +96,15 @@ class App {
       })
       .then(function (response) {
         console.log(response.data);
+        location.reload();
       })
       .catch(function (error) {
         console.log(error);
       });
-
-    // Render the sighting on the side bar
-    // this._renderSighting(sighting);
   }
 
-  // _renderSighting(sighting) {
-  //   let html = `
-  //   <li class="sighting animate__animated animate__fadeInLeft">
-  //     <div class="sighting_col">
-  //       <div class="sighting_row">
-  //         <p>📆 ${sighting.date}</p>
-  //       </div>
-  //       <div class="sighting_row">
-  //         <p>⌚ ${sighting.time}</p>
-  //       </div>
-  //     </div>
-  //     <div class="sighting_col">
-  //       <div class="sighting_row">
-  //         <p>🦆 ${sighting.species}</p>
-  //       </div>
-  //       <div class="sighting_row">
-  //         <p>🌲 ${sighting.locationType}</p>
-  //       </div>
-  //     </div>
-  //   </li>
-  //   `;
-
-  //   form.insertAdjacentHTML("afterend", html);
-  // }
-
-  _renderSightingMarker(sighting) {
-    L.marker(sighting.coords)
+  _renderSightingMarker(coords) {
+    L.marker(coords)
       .addTo(this.#map)
       .bindPopup(
         L.popup({
@@ -139,6 +118,7 @@ class App {
       .setPopupContent("Sighting")
       .openPopup();
   }
+
 }
 
 const app = new App();
