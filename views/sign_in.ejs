@@ -30,8 +30,8 @@
   <body>
     <!-- Navbar -->
     <header id="header">
-      <nav class="space-between drop-shadow">
-        <a class="logo">Birdly <i class="fa-solid fa-kiwi-bird"></i></a>
+      <nav class="space-between">
+        <a class="logo">Birdly <i class="fa-solid fa-kiwi-bird dark-text"></i></a>
         <h5 id="welcome" class="text-center"><%= locals.user ? "Welcome back " + user.name : "" %></h5>
         <div class="icons-container">
         </div>    
@@ -43,31 +43,37 @@
 <main id="site-main">
 
   <!-- user form layout container -->
-  <div id="add-user-form-container">
-    <form id="sign_in" class="drop-shadow" method="POST" action="/login">
+
+    <div class="form-container glass">
+      <form id="sign_in" method="POST" action="/login">
         <% if (locals.logout) { %>
           <div class="alert text-center">
             <%= logout %> 
           </div>
         <% } %>  
-
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="email">
+        <input type="email" id="email" name="email" placeholder="email" required>
     
         <div class="division"></div>
 
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="password">
+        <input type="password" id="password" name="password" placeholder="password" required>
     
         <div class="division"></div>
         
         <input type="submit" value="Sign in">
         <a href="/add-user">Create an account here.</a>
       </form>
-    <div class="add-color-section gradient-animate drop-shadow">
-        Welcome Back!
+    <div class="side-section">
+        <h1 class="section-header">
+          Welcome to Birdly
+        </h1>
+        <p class="section-message">
+          Birdly is a full stack web application for bird sighting tracking that utilizes the MongoDB, Express, and Node.js stack. The app includes an interactive map, location tracking, and user authentication features to assist users in their birding adventures.
+        </p>
     </div>
-  </div>
+    </div>
+
   <!-- user form layout container -->
 </main>
 <!-- Main Site -->

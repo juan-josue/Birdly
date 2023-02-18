@@ -9,10 +9,12 @@ const inputDate = document.querySelector("#date");
 const inputTime = document.querySelector("#time");
 const inputSpecies = document.querySelector("#species");
 const inputLocation = document.querySelector("#locationType");
+const sightingList = document.querySelector("#sighting-list");
 
 class App {
   #map;
   #mapEvent;
+  #mapZoomLevel = 13;
 
   constructor() {
     // Get user's position and load the map on that location
@@ -20,6 +22,7 @@ class App {
 
     // Attach event handlers
     form.addEventListener("submit", this._newSighting.bind(this));
+    sightingList.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   /**
@@ -42,7 +45,7 @@ class App {
 
     const coords = [latitude, longitude];
 
-    this.#map = L.map("map").setView(coords, 13);
+    this.#map = L.map("map").setView(coords, this.#mapZoomLevel);
 
     // Render map background
     L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
@@ -53,14 +56,17 @@ class App {
     // Add event listender to the loaded map for click events
     this.#map.on("click", this._showForm.bind(this));
 
-    const pairs = [];
-    $('.sighting').each(function() {
-      let lat = $(this).find('.hide').eq(0).text();
-      let lng = $(this).find('.hide').eq(1).text();
-      pairs.push([lat, lng]);
+    const markers = [];
+    $(".sighting").each(function () {
+      let marker = {};
+      marker.lat = $(this).find(".hide").eq(0).text();
+      marker.lng = $(this).find(".hide").eq(1).text();
+      marker.date = $(this).find("p:nth-of-type(1)").text();
+      marker.species = $(this).find("p:nth-of-type(3)").text();
+      markers.push(marker);
     });
-    pairs.forEach(pair => {
-      this._renderSightingMarker(pair);
+    markers.forEach((marker) => {
+      this._renderSightingMarker(marker);
     });
   }
 
@@ -103,8 +109,8 @@ class App {
       });
   }
 
-  _renderSightingMarker(coords) {
-    L.marker(coords)
+  _renderSightingMarker(marker) {
+    L.marker([marker.lat, marker.lng])
       .addTo(this.#map)
       .bindPopup(
         L.popup({
@@ -115,10 +121,28 @@ class App {
           className: "popup",
         })
       )
-      .setPopupContent("Sighting")
+      .setPopupContent(marker.date + " - " + marker.species)
       .openPopup();
   }
 
+  _moveToPopup(e) {
+    // BUGFIX: When we click on a workout before the map has loaded, we get an error. But there is an easy fix:
+    if (!this.#map) return;
+
+    const sightingEl = e.target.closest(".sighting");
+
+    if (!sightingEl) return;
+
+    const coordEls = sightingEl.querySelectorAll(".hide");
+    const coords = [coordEls[0].textContent, coordEls[1].textContent];
+
+    this.#map.setView(coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 3,
+      },
+    });
+  }
 }
 
 const app = new App();

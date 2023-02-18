@@ -1,11 +1,16 @@
-<% const sightings = user.sightings %>
-<% for (var i = 0; i < sightings.length; i++) { %>
+<% const sightings = user.sightings %> <% for (var i = 0; i < sightings.length;
+i++) { %>
 <li class="sighting drop-shadow">
-  <div class="hide"><%= sightings[i].coords[0] %></div>
-  <div class="hide"><%= sightings[i].coords[1] %></div>
-  <p><i class="fa-solid fa-calendar"></i> <%= sightings[i].date %></p>
-  <p><i class="fa-solid fa-clock"></i> <%= sightings[i].time %></p>
-  <p><i class="fa-solid fa-crow"></i> <%= sightings[i].species %></p>
-  <!-- <p><i class="fa-solid fa-tree"></i><%= sightings[i].location %></p> -->
+  <div class="sighting-summary">
+    <div class="hide"><%= sightings[i].coords[0] %></div>
+    <div class="hide"><%= sightings[i].coords[1] %></div>
+    <p><i class="fa-solid fa-calendar"></i> <%= sightings[i].date %></p>
+    <p><i class="fa-solid fa-clock"></i> <%= sightings[i].time %></p>
+    <p><i class="fa-solid fa-crow"></i> <%= sightings[i].species %></p>
+    <!-- <p><i class="fa-solid fa-tree"></i><%= sightings[i].location %></p> -->
+  </div>
+  <div class="sighting-control">
+    <a href=""><i class="fa-solid fa-xmark"></i></a>
+  </div>
 </li>
-<% } %> 
+<% } %>
