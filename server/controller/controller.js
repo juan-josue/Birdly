@@ -64,7 +64,33 @@ exports.find = (req, res) => {
 exports.update = (req, res) => {};
 
 // Delete a user with specified id in the request
-exports.delete = (req, res) => {};
+exports.delete = (req, res) => {
+  let sightings = req.session.user.sightings;
+  const targetId = req.body.sightingId;
+
+  console.log("TARGET ID IS " + targetId);
+  sightings = sightings.filter((sighting) => sighting._id != targetId);
+
+  Userdb.findByIdAndUpdate(
+    req.session.user._id,
+    { sightings: sightings },
+    { new: true }
+  )
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "User not found with id " + req.session.user._id,
+        });
+      }
+      req.session.user = data;
+      res.render("index", { user: data });
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: "Error updating sighting list info",
+      });
+    });
+};
 
 // report sighting
 exports.report = (req, res) => {

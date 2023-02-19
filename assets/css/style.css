@@ -266,6 +266,8 @@ input {
 select {
   background-color: var(--black_light);
   color: var(--white);
+  border-radius: 10px;
+  padding: 5px;
   border: none;
 }
 

@@ -143,6 +143,10 @@ body {
   background-color: var(--background);
 }
 
+select {
+  border-radius: 10px;
+}
+
 .form_btn {
   font-family: "Mukta", sans-serif;
   font-size: 1.3em;
@@ -198,14 +202,6 @@ body {
   font-size: 1.3em;
   color: var(--white);
 }
-
-/* .sightings {
-  overflow: auto;
-
-  display: flex;
-  flex-direction: column;
-  gap: 3%;
-} */
 
 /* MAP */
 #map {

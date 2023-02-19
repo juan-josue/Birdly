@@ -2,15 +2,17 @@
 i++) { %>
 <li class="sighting drop-shadow">
   <div class="sighting-summary">
-    <div class="hide"><%= sightings[i].coords[0] %></div>
-    <div class="hide"><%= sightings[i].coords[1] %></div>
+
+    <div class="hide atr-sighting-lat"><%= sightings[i].coords[0] %></div>
+    <div class="hide atr-sighting-lng"><%= sightings[i].coords[1] %></div>
+
     <p><i class="fa-solid fa-calendar"></i> <%= sightings[i].date %></p>
     <p><i class="fa-solid fa-clock"></i> <%= sightings[i].time %></p>
     <p><i class="fa-solid fa-crow"></i> <%= sightings[i].species %></p>
     <!-- <p><i class="fa-solid fa-tree"></i><%= sightings[i].location %></p> -->
   </div>
   <div class="sighting-control">
-    <a href=""><i class="fa-solid fa-xmark"></i></a>
+    <a class="del-btn" sighting-id=<%= sightings[i]._id %> ><i class="fa-solid fa-xmark"></i></a>
   </div>
 </li>
 <% } %>

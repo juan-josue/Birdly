@@ -9,7 +9,8 @@ const inputDate = document.querySelector("#date");
 const inputTime = document.querySelector("#time");
 const inputSpecies = document.querySelector("#species");
 const inputLocation = document.querySelector("#locationType");
-const sightingList = document.querySelector("#sighting-list");
+const sightings = document.querySelectorAll(".sighting-summary");
+const delBtns = document.querySelectorAll(".del-btn");
 
 class App {
   #map;
@@ -22,7 +23,14 @@ class App {
 
     // Attach event handlers
     form.addEventListener("submit", this._newSighting.bind(this));
-    sightingList.addEventListener('click', this._moveToPopup.bind(this));
+
+    sightings.forEach((sighting) => {
+      sighting.addEventListener("click", this._moveToPopup.bind(this));
+    });
+
+    delBtns.forEach((delBtn) => {
+      delBtn.addEventListener("click", this._deleteSighting.bind(this));
+    });
   }
 
   /**
@@ -126,10 +134,9 @@ class App {
   }
 
   _moveToPopup(e) {
-    // BUGFIX: When we click on a workout before the map has loaded, we get an error. But there is an easy fix:
     if (!this.#map) return;
 
-    const sightingEl = e.target.closest(".sighting");
+    const sightingEl = e.target.closest(".sighting-summary");
 
     if (!sightingEl) return;
 
@@ -142,6 +149,25 @@ class App {
         duration: 3,
       },
     });
+  }
+
+  _deleteSighting(event) {
+    if (!this.#map) return;
+
+    const delBtn = event.target.closest(".del-btn");
+    const sightingId = delBtn.getAttribute("sighting-id");
+
+    if (!delBtn) return;
+
+    axios
+      .delete("/api/delete", { data: { sightingId: sightingId } })
+      .then(function (response) {
+        console.log(response.data);
+        location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 }
 
