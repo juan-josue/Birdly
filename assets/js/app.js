@@ -1,9 +1,9 @@
 "use strict";
 
-// //Imports
+// Imports
 import { Sighting } from "./sighting.js";
 
-// // Document Elements
+// Document Elements
 const form = document.querySelector("#sighting-form");
 const inputDate = document.querySelector("#date");
 const inputTime = document.querySelector("#time");

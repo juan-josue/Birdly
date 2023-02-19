@@ -3,36 +3,34 @@
 <!-- Include header -->
 
 <!-- Main Site -->
-<main id="site-main">
-
-  <!-- user form layout container -->
-  <div id="add-user-form-container">
-    <form id="update_user" class="drop-shadow" method="POST">
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" placeholder="Jane Doe">
-      
-      <div class="division"></div>
+<main id="site-main" class="update-user-main">
+  <div class="update-user-container">
+  <!-- Navbar -->
+  <header id="header">
+    
+      <nav>
+        <a class="logo-text">Birdly</a>
+        <h5><%= locals.user ? "Welcome back " + user.name : "" %></h5>
+        <div class="icons-container">
+          <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </a>
+        </div>    
+      </nav>
+    </header>
+    <!-- Navbar -->
   
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="user@email.com">
-  
-      <div class="division"></div>
-      
-      <label for="status">Status</label>
-      <select id="status" name="status">
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-      </select>
-  
-      <div class="division"></div>
-      
-      <input type="submit" value="Comfirm">
-    </form>
-    <div class="add-color-section update-color-section blue-gradient drop-shadow">
-        Any New Sightings Today?
+    <!-- user form layout container -->
+    <div class="form-container glass">
+      <%- include('include/_add_user_form') %>
+      <div class="side-section">
+        <h1 class="section-header">
+          "Hold fast to dreams, for if dreams die, life is a broken-winged bird that cannot fly." 
+        </h1>
+        <p> — Langston Hughes </p>
     </div>
-  </div>
-  <!-- user form layout container -->
+    <!-- user form layout container -->
+    </div>
 </main>
 <!-- Main Site -->
 
