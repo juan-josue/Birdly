@@ -143,7 +143,7 @@ class App {
     const coordEls = sightingEl.querySelectorAll(".hide");
     const coords = [coordEls[0].textContent, coordEls[1].textContent];
 
-    this.#map.setView(coords, this.#mapZoomLevel, {
+    this.#map.setView(coords, 15, {
       animate: true,
       pan: {
         duration: 3,

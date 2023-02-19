@@ -8,18 +8,24 @@ exports.login = (req, res) => {
     .get("http://localhost:3000/api/users", {
       params: { email: req.body.email },
     })
-    .then(function (response) {
+    .then( async function (response) {
       const user = response.data;
 
-      if (user.email && req.body.email == user.email) {
-        req.session.user = user;
-        res.redirect("/dashboard");
-      } else {
+      if (!user) {
+        res.render("sign_in", { logout: "No accounts associated with this email!" });
+      }
+      // Use becrypt to comapre hashed password to entered password
+      try {
+        if (await bcrypt.compare(req.body.password, user.password)) {
+          req.session.user = user;
+          res.redirect("/dashboard");
+        }
+      } catch {
         res.render("sign_in", { logout: "Invalid username or password!" });
       }
     })
     .catch((err) => {
-      res.send(err);
+      res.render("sign_in", { logout: "Something went wrong during sign in!" });
     });
 };
 
