@@ -1,45 +1,58 @@
 var Userdb = require("../model/model");
 const axios = require("axios");
+const bcrypt = require("bcrypt");
 
 // Create and save new user
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // validate request
   if (!req.body) {
     res.status(400).send({ message: "Content cannot be empty!" });
     return;
   }
 
-  // Create a new user based on our model
-  const user = new Userdb({
-    name: req.body.name,
-    email: req.body.email,
-    sightings: [],
-  });
-
-  // Save user in the data base
-  user
-    .save(user)
-    .then((data) => {
-      // Send the new user the dashboard
-      axios
-        .get("http://localhost:3000/api/users", {
-          params: { email: req.body.email },
-        })
-        .then(function (response) {
-          req.session.user = response.data;
-          res.redirect("/dashboard");
-        })
-        .catch((err) => {
-          res.send(err);
-        });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message ||
-          "Some error occured while creating a create operation!",
-      });
+  // Create a new user based on our model with a hashed and salted password using bcrypt
+  try {
+    console.log("trying to create user");
+    const salt = await bcrypt.genSalt();
+    console.log("user password before salt is " + req.body.password);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    console.log("hashed user password is " + hashedPassword);
+    const user = new Userdb({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPassword,
+      sightings: [],
     });
+    console.log(user);
+    // Save user in the data base
+    user
+      .save(user)
+      .then((data) => {
+        // Send the new user the dashboard
+        axios
+          .get("http://localhost:3000/api/users", {
+            params: { email: req.body.email },
+          })
+          .then(function (response) {
+            req.session.user = response.data;
+            res.redirect("/dashboard");
+          })
+          .catch((err) => {
+            res.send(err);
+          });
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message ||
+            "Some error occured while creating a create operation!",
+        });
+      });
+  } catch (error) {
+
+    console.log("ERROR ERROR ERROR");
+    console.log(error);
+  }
 };
 
 // Retrieve a user with a specific email

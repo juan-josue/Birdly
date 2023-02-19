@@ -1,5 +1,6 @@
 // This library lets you make HTTP requests (get, post, put, delete) from node js
 const axios = require("axios");
+const bcrypt = require("bcrypt");
 
 // login route handler
 exports.login = (req, res) => {
