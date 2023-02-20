@@ -58,6 +58,10 @@ exports.add_user = (req, res) => {
 };
 
 exports.update_user = (req, res) => {
-  res.render("update_user");
+  if (req.session.user) {
+    res.render("update_user", { user: req.session.user });
+  } else {
+    res.send("Unauthorized user!");
+  }
 };
 

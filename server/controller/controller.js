@@ -12,18 +12,17 @@ exports.create = async (req, res) => {
 
   // Create a new user based on our model with a hashed and salted password using bcrypt
   try {
-    console.log("trying to create user");
     const salt = await bcrypt.genSalt();
-    console.log("user password before salt is " + req.body.password);
+    console.log(req.body.password);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    console.log("hashed user password is " + hashedPassword);
+
     const user = new Userdb({
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
       sightings: [],
     });
-    console.log(user);
+
     // Save user in the data base
     user
       .save(user)
@@ -49,8 +48,6 @@ exports.create = async (req, res) => {
         });
       });
   } catch (error) {
-
-    console.log("ERROR ERROR ERROR");
     console.log(error);
   }
 };
@@ -74,14 +71,40 @@ exports.find = (req, res) => {
 };
 
 // Update a new identified user by user id
-exports.update = (req, res) => {};
+exports.update = (req, res) => {
+    if (!req.body) {
+    return res.status(400).send({ message: "Data to update cannot be empty" });
+  }
+
+  const id = req.params.id;
+  Userdb.findByIdAndUpdate(id, req.body, { new: true })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "User not found with id " + id,
+        });
+      }
+      console.log("UPDATE SUCCESS SUCCESS UPDATE SUCCESS SUCCESS");
+      req.session.user = data;
+      res.send(data);
+    })
+    .catch((err) => {
+      if (err.kind === "ObjectId") {
+        return res.status(404).send({
+          message: `cannot update user with id:${id}. Maybe user not found!`,
+        });
+      }
+      return res.status(500).send({
+        message: "Error updating user info",
+      });
+    });
+};
 
 // Delete a user with specified id in the request
 exports.delete = (req, res) => {
   let sightings = req.session.user.sightings;
   const targetId = req.body.sightingId;
 
-  console.log("TARGET ID IS " + targetId);
   sightings = sightings.filter((sighting) => sighting._id != targetId);
 
   Userdb.findByIdAndUpdate(

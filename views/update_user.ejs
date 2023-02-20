@@ -22,7 +22,27 @@
   
     <!-- user form layout container -->
     <div class="form-container glass">
-      <%- include('include/_add_user_form') %>
+
+      <!-- update user form -->
+      <form id="update_user" method="POST" action="/api/users/">
+        <% if (locals.alert) { %>
+        <div class="alert text-center"><%= alert %></div>
+        <% } %>
+
+        <input type="hidden" name="id" value="<%= user._id %>">
+      
+        <label for="name">Username</label>
+        <input type="text" id="name" name="name" value="<%= user.name %>" />
+        <div class="division"></div>
+      
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="<%= user.email %>" />
+        <div class="division"></div>
+      
+        <input type="submit" value="Update info" />
+      </form>
+      <!-- update user form -->
+
       <div class="side-section">
         <h1 class="section-header">
           "Hold fast to dreams, for if dreams die, life is a broken-winged bird that cannot fly." 
