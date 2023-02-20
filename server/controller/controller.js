@@ -72,7 +72,7 @@ exports.find = (req, res) => {
 
 // Update a new identified user by user id
 exports.update = (req, res) => {
-    if (!req.body) {
+  if (!req.body) {
     return res.status(400).send({ message: "Data to update cannot be empty" });
   }
 
@@ -103,6 +103,7 @@ exports.update = (req, res) => {
 // Delete a user with specified id in the request
 exports.delete = (req, res) => {
   let sightings = req.session.user.sightings;
+  console.log(sightings);
   const targetId = req.body.sightingId;
 
   sightings = sightings.filter((sighting) => sighting._id != targetId);
@@ -132,12 +133,23 @@ exports.delete = (req, res) => {
 exports.report = (req, res) => {
   const user = req.session.user;
   const newSighting = req.body.sighting;
+  console.log(req.body.sighting);
 
   if (user) {
     // Find user with the id and update
     Userdb.findByIdAndUpdate(
       user._id,
-      { $push: { sightings: newSighting } },
+      {
+        $push: {
+          sightings: {
+            coords: newSighting.coords,
+            date: newSighting.date,
+            time: newSighting.time,
+            species: newSighting.species,
+            location: newSighting.locationType,
+          },
+        },
+      },
       { new: true }
     )
       .then((data) => {

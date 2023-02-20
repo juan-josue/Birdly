@@ -413,3 +413,7 @@ select {
   gap: 10%;
   align-items: center;
 }
+
+.stat {
+  color:var(--black);
+}
