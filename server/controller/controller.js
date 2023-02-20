@@ -1,21 +1,39 @@
 var Userdb = require("../model/model");
-const axios = require("axios");
 const bcrypt = require("bcrypt");
+
+// login route handler
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      throw new Error("Email and password are required");
+    }
+
+    const user = await Userdb.findOne({ email });
+
+    if (!user) {
+      throw new Error("No accounts associated with this email");
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      throw new Error("Invalid username or password");
+    }
+
+    req.session.user = user;
+    res.redirect("/dashboard");
+  } catch (error) {
+    res.render("sign_in", { logout: error.message });
+  }
+};
 
 // Create and save new user
 exports.create = async (req, res) => {
-  // validate request
-  if (!req.body) {
-    res.status(400).send({ message: "Content cannot be empty!" });
-    return;
-  }
-
-  // Create a new user based on our model with a hashed and salted password using bcrypt
   try {
+    // create a new user object with hashed password
     const salt = await bcrypt.genSalt();
-    console.log(req.body.password);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
     const user = new Userdb({
       name: req.body.name,
       email: req.body.email,
@@ -23,32 +41,18 @@ exports.create = async (req, res) => {
       sightings: [],
     });
 
-    // Save user in the data base
-    user
-      .save(user)
-      .then((data) => {
-        // Send the new user the dashboard
-        axios
-          .get("http://localhost:3000/api/users", {
-            params: { email: req.body.email },
-          })
-          .then(function (response) {
-            req.session.user = response.data;
-            res.redirect("/dashboard");
-          })
-          .catch((err) => {
-            res.send(err);
-          });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message:
-            err.message ||
-            "Some error occured while creating a create operation!",
-        });
-      });
+    // save the user object to the database
+    const savedUser = await user.save();
+
+    // set session user to the saved user
+    req.session.user = savedUser;
+
+    // redirect to the dashboard
+    res.redirect("/dashboard");
   } catch (error) {
-    console.log(error);
+    res.status(500).send({
+      message: error.message || "Some error occurred while creating a create operation!",
+    });
   }
 };
 
@@ -71,62 +75,64 @@ exports.find = (req, res) => {
 };
 
 // Update a new identified user by user id
-exports.update = (req, res) => {
-  if (!req.body) {
-    return res.status(400).send({ message: "Data to update cannot be empty" });
-  }
+exports.update = async (req, res) => {
+  try {
+    if (!req.body) {
+      throw new Error("Data to update cannot be empty");
+    }
 
-  const id = req.params.id;
-  Userdb.findByIdAndUpdate(id, req.body, { new: true })
-    .then((data) => {
-      if (!data) {
-        return res.status(404).send({
-          message: "User not found with id " + id,
-        });
-      }
-      console.log("UPDATE SUCCESS SUCCESS UPDATE SUCCESS SUCCESS");
-      req.session.user = data;
-      res.send(data);
-    })
-    .catch((err) => {
-      if (err.kind === "ObjectId") {
-        return res.status(404).send({
-          message: `cannot update user with id:${id}. Maybe user not found!`,
-        });
-      }
-      return res.status(500).send({
-        message: "Error updating user info",
-      });
+    const id = req.params.id;
+    const updatedUser = await Userdb.findByIdAndUpdate(id, req.body, {
+      new: true,
     });
+
+    if (!updatedUser) {
+      throw new Error(`User not found with id ${id}`);
+    }
+
+    req.session.user = updatedUser;
+    res.send(updatedUser);
+    res.redirect("/dashboard");
+  } catch (error) {
+    if (error.kind === "ObjectId") {
+      res.status(404).send({ message: `Cannot update user with id ${id}. Maybe user not found!` });
+    } else {
+      res.status(500).send({ message: "Error updating user info" });
+    }
+  }
 };
 
+
 // Delete a user with specified id in the request
-exports.delete = (req, res) => {
-  let sightings = req.session.user.sightings;
-  console.log(sightings);
-  const targetId = req.body.sightingId;
+exports.delete = async (req, res) => {
+  try {
+    const sightingId = req.body.sightingId;
 
-  sightings = sightings.filter((sighting) => sighting._id != targetId);
+    if (!sightingId) {
+      return res.status(400).send({ message: "Sighting ID is required" });
+    }
 
-  Userdb.findByIdAndUpdate(
-    req.session.user._id,
-    { sightings: sightings },
-    { new: true }
-  )
-    .then((data) => {
-      if (!data) {
-        return res.status(404).send({
-          message: "User not found with id " + req.session.user._id,
-        });
-      }
-      req.session.user = data;
-      res.render("index", { user: data });
-    })
-    .catch((err) => {
-      return res.status(500).send({
-        message: "Error updating sighting list info",
+    const user = req.session.user;
+
+    const updatedUser = await Userdb.findOneAndUpdate(
+      { _id: user._id },
+      { $pull: { sightings: { _id: sightingId } } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send({
+        message: "User not found with id " + user._id,
       });
+    }
+
+    req.session.user = updatedUser;
+    res.render("index", { user: updatedUser });
+  } catch (error) {
+    return res.status(500).send({
+      message: "Error deleting sighting",
     });
+  }
 };
 
 // report sighting

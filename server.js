@@ -1,10 +1,19 @@
-const express = require("express"); // Express is a node framework commonly used to handle HTTP routes
-const dotenv = require("dotenv"); // Used to seperate sensitive data (ie ports, passwords, API keys) from your code
-const morgan = require("morgan"); // Outputs to the console each HTTP request the server recieves automatically
-const bodyparser = require("body-parser"); // Used to parse HTTP request
+// Express is a node framework commonly used to handle HTTP routes
+const express = require("express"); 
+
+// Used to seperate sensitive data (ie ports, passwords, API keys) from your code
+const dotenv = require("dotenv"); 
+
+// Outputs to the console each HTTP request the server recieves automatically
+const morgan = require("morgan"); 
+
+// Used to parse HTTP request
+const bodyparser = require("body-parser"); 
 const session = require("express-session");
 const {v4: uuidv4} = require("uuid");
-const path = require("path"); // A built in module that will let you work with dirs and file paths in node js
+
+// A built in module that will let you work with dirs and file paths in node js
+const path = require("path"); 
 
 const connectDB = require('./server/database/connection')
 

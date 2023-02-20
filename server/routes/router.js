@@ -15,18 +15,6 @@ route.get("/", services.sign_in);
 route.get("/sign-in", services.sign_in);
 
 /**
- * @description Log In Route (render sign in page)
- * @method POST /
- * */
-route.post("/login", services.login);
-
-/**
- * @description Log In Route (render sign in page)
- * @method GET /
- * */
-route.get("/logout", services.logout);
-
-/**
  * @description dashboard Route (render the user dashboard)
  * @method GET /
  * */
@@ -43,6 +31,18 @@ route.get("/add-user", services.add_user);
  * @method GET /update-user
  * */
 route.get("/update-user", services.update_user);
+
+/**
+ * @description Log In Route handler
+ * @method POST /
+ * */
+route.post("/login", controller.login);
+
+/**
+ * @description Log Out Route handler
+ * @method GET /
+ * */
+route.get("/logout", services.logout);
 
 // API (for our api calls to mongodb), :id is defining a url parameter
 route.post('/api/users', controller.create);
