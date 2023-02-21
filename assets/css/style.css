@@ -29,7 +29,25 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+#site-main {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* DASHBOARD LAYOUT */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  width: 96%;
+  height: 100%;
+
+  background-image: url("https://source.unsplash.com/Ori_JWlqVpc/1600x900");
+}
+
 .col-container {
   display: flex;
   justify-content: end;
@@ -72,14 +90,9 @@ body {
   overflow: hidden;
 }
 
-#site-main {
-  width: 100vw;
-  height: 100vh;
+/* DASHBOARD LAYOUT */
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* NAVIGATION BAR */
 
 header {
   width: 100%;
@@ -132,6 +145,8 @@ header h5 {
   top: 5px;
 }
 
+/* NAVIGATION BAR */
+
 /* SIGHTINGS LIST */
 #sighting-list {
   width: 100%;
@@ -182,6 +197,8 @@ header h5 {
   color: var(--white);
 }
 
+/* SIGHTINGS LIST */
+
 /* MAP COLUMN */
 #map-container {
   height: 100%;
@@ -229,6 +246,12 @@ header h5 {
 .sighting-form-container label {
   margin-bottom: 5px;
 }
+
+.stat {
+  color:var(--black);
+}
+
+/* MAP COLUMN */
 
 /* FORMS */
 .form-container {
@@ -310,8 +333,9 @@ select {
   margin-top: 4px;
 }
 
-/* LEAFLET  */
-/* Popup width is defined in JS using options */
+/* FORMS */
+
+/* LEAFLET */
 .leaflet-popup .leaflet-popup-content-wrapper {
   background-color: var(--black);
   color: var(--white);
@@ -330,6 +354,8 @@ select {
 .popup .leaflet-popup-content-wrapper {
   border-left: 10px solid var(--orange);
 }
+
+/* LEAFLET */
 
 /* USEFUL CLASSES */
 .hide {
@@ -360,6 +386,10 @@ select {
   justify-content: space-between;
 }
 
+/* USEFUL CLASSES */
+
+/* SIDE NAVIGATION BAR */
+
 .side-nav {
   width: 4%;
   height: 100%;
@@ -379,21 +409,14 @@ select {
   margin-bottom: 60px;
 }
 
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  width: 96%;
-  height: 100%;
-
-  background-image: url("https://source.unsplash.com/Ori_JWlqVpc/1600x900");
-}
-
 .circle {
   height: 10px;
   width: 10px;
   border-radius: 10px;
   background-color: var(--white);
 }
+
+/* SIDE NAVIGATION BAR */
 
 .sign-in-main {
   background-image: url("https://source.unsplash.com/KWuZE4lnEVw/1600x900");
@@ -414,8 +437,4 @@ select {
   height: 100%;
   gap: 10%;
   align-items: center;
-}
-
-.stat {
-  color:var(--black);
 }

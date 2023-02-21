@@ -1,6 +1,6 @@
 <% const sightings = user.sightings %> <% for (var i = 0; i < sightings.length;
 i++) { %>
-<li class="sighting drop-shadow">
+<li class="sighting drop-shadow" data-lat="<%= sightings[i].coords[0] %>" data-lng="<%= sightings[i].coords[1] %>">
   <div class="sighting-summary">
 
     <div class="hide atr-sighting-lat"><%= sightings[i].coords[0] %></div>
