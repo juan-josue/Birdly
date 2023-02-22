@@ -1,4 +1,4 @@
-![An image of the Birdly landing page](https://imgur.com/a/ekGXXhH)
+![Birdly User Dashboard Mockup](screenshot.png)
 
 # Birdly: The Bird Sighting Tracker
 
